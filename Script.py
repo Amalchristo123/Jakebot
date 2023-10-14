@@ -194,13 +194,10 @@ Nᴀᴍᴇ - {}"""
 <b>📂 Fɪʟᴇ ɴᴀᴍᴇ : </b> <code>{file_name}</code>
 
 <b>
-╭─────── • ◆ • ───────╮
-🔅 Dᴀʀᴋ Mᴏᴅᴇ :  <a href="https://t.me/addtheme/DQ_The_File_Donor_Theme">Tᴏᴜᴄʜ</a>
-╰─────── • ◆ • ───────╯
 
 =========== • ✠ • ===========
-▫️ ᴄʜᴀɴɴᴇʟ : @DQ_The_File_Donor_Bot_Updates
-▫️ sᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ : @DQ_The_File_Donor_Support
+▫️ ᴄʜᴀɴɴᴇʟ : <a href='https://t.me/+m3MNLXzTNvU5NTNl'>ᴄʜᴀɴɴᴇʟ</a>
+▫️ ɢʀᴏᴜᴘ : <a href='https://t.me/+PLxIb35WIswxNjRl'>ɢʀᴏᴜᴘ</a>
 =========== • ✠ • ===========</b>"""
 
     IMDB_TEMPLATE_TXT = """
