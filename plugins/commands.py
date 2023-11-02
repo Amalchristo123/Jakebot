@@ -1,8 +1,10 @@
+#anshvachhani
 import os
 import logging
 import random
 import asyncio
 from Script import script
+from .fsub import Force_Sub
 from pyrogram import Client, filters, enums
 from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -125,6 +127,9 @@ async def start(client, message):
     except:
         file_id = data
         pre = ""
+        is_req = await Force_Sub(client, message, file_id)
+    if not is_req:
+        return
     if data.split("-", 1)[0] == "BATCH":
         sts = await message.reply("<b>Pʟᴇᴀsᴇ ᴡᴀɪᴛ...</b>")
         file_id = data.split("-", 1)[1]
