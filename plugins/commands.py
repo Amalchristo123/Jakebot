@@ -127,7 +127,7 @@ async def start(client, message):
     except:
         file_id = data
         pre = ""
-        is_req = await Force_Sub(client, message, file_id)
+    is_req = await Force_Sub(client, message, file_id)
     if not is_req:
         return
     if data.split("-", 1)[0] == "BATCH":
