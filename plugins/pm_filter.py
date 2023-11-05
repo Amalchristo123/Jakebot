@@ -113,7 +113,7 @@ async def next_page(bot, query):
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"🔹[{get_size(file.file_size)}]🔸{file.file_name}", url=await get_shortlink(query.message.chat.id, f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}")
+                    text=f"🔹{get_size(file.file_size)}🔸{file.file_name}", url=await get_shortlink(query.message.chat.id, f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}")
                 ),
             ]
             for file in files
@@ -135,7 +135,7 @@ async def next_page(bot, query):
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"🔹[{get_size(file.file_size)}]🔸{file.file_name}", url=f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}"
+                    text=f"🔹{get_size(file.file_size)}🔸{file.file_name}", url=f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}"
                 ),
             ]
             for file in files
@@ -144,7 +144,7 @@ async def next_page(bot, query):
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"🔹[{get_size(file.file_size)}]🔸{file.file_name}", url=f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}"
+                    text=f"🔹{get_size(file.file_size)}🔸{file.file_name}", url=f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}"
                 ),
             ]
             for file in files
@@ -240,7 +240,7 @@ async def next_page(bot, query):
                 ],
             )
     btn.insert(0, [
-        InlineKeyboardButton("📥 Sᴇɴᴅ Aʟʟ Tᴏ PM ", callback_data=f"send_fall#files#{offset}#{req}"),
+        InlineKeyboardButton("Sᴇɴᴅ Aʟʟ Tᴏ PM", callback_data=f"send_fall#files#{offset}#{req}"),
         InlineKeyboardButton("📟 Lᴀɴɢᴜᴀɢᴇs ", callback_data=f"select_lang#{req}")
     ])
     btn.insert(0, [
@@ -280,7 +280,7 @@ async def language_check(bot, query):
             btn = [
                 [
                     InlineKeyboardButton(
-                        text=f"🔹[{get_size(file.file_size)}]🔸{file.file_name}", url=await get_shortlink(query.message.chat.id, f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}")
+                        text=f"🔹{get_size(file.file_size)}🔸{file.file_name}", url=await get_shortlink(query.message.chat.id, f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}")
                     ),
                 ]
                 for file in files
@@ -289,11 +289,11 @@ async def language_check(bot, query):
             btn = [
                 [
                     InlineKeyboardButton(
-                        text=f"🔸{file.file_name}",
+                        text=f"{file.file_name}",
                         url=await get_shortlink(query.message.chat.id, f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}")
                     ),
                     InlineKeyboardButton(
-                        text=f"🔹{get_size(file.file_size)}",
+                        text=f"{get_size(file.file_size)}",
                         url=await get_shortlink(query.message.chat.id, f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}")
                     ),
                 ]
@@ -303,7 +303,7 @@ async def language_check(bot, query):
             btn = [
                 [
                     InlineKeyboardButton(
-                        text=f"🔹[{get_size(file.file_size)}]🔸{file.file_name}", callback_data=f'{pre}#{file.file_id}'
+                        text=f"🔹{get_size(file.file_size)}🔸{file.file_name}", callback_data=f'{pre}#{file.file_id}'
                     ),
                 ]
                 for file in files
@@ -312,11 +312,11 @@ async def language_check(bot, query):
             btn = [
                 [
                     InlineKeyboardButton(
-                        text=f"🔸{file.file_name}",
+                        text=f"{file.file_name}",
                         callback_data=f'{pre}#{file.file_id}',
                     ),
                     InlineKeyboardButton(
-                        text=f"🔹{get_size(file.file_size)}",
+                        text=f"{get_size(file.file_size)}",
                         callback_data=f'{pre}#{file.file_id}',
                     ),
                 ]
@@ -352,7 +352,7 @@ async def language_check(bot, query):
             )
         
         btn.insert(0, [
-            InlineKeyboardButton("📥 Sᴇɴᴅ Aʟʟ Tᴏ PM ", callback_data=f"send_fall#{pre}#{0}#{userid}"),
+            InlineKeyboardButton("Sᴇɴᴅ Aʟʟ Tᴏ PM", callback_data=f"send_fall#{pre}#{0}#{userid}"),
             InlineKeyboardButton("📟 Lᴀɴɢᴜᴀɢᴇs ", callback_data=f"select_lang#{userid}")
         ])
 
@@ -1554,7 +1554,7 @@ async def auto_filter(client, msg, spoll=False):
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"[{get_size(file.file_size)}] {file.file_name}", url=await get_shortlink(message.chat.id, f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}")
+                    text=f"🔹{get_size(file.file_size)}🔸{file.file_name}", url=await get_shortlink(message.chat.id, f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}")
                 ),
             ]
             for file in files
@@ -1563,11 +1563,11 @@ async def auto_filter(client, msg, spoll=False):
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"{file.file_name}",
+                    text=f"🔸{file.file_name}",
                     url=await get_shortlink(message.chat.id, f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}")
                 ),
                 InlineKeyboardButton(
-                    text=f"{get_size(file.file_size)}",
+                    text=f"🔹{get_size(file.file_size)}",
                     url=await get_shortlink(message.chat.id, f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}")
                 ),
             ]
@@ -1623,7 +1623,7 @@ async def auto_filter(client, msg, spoll=False):
         )
 
     btn.insert(0, [
-        InlineKeyboardButton("📥 Sᴇɴᴅ Aʟʟ Tᴏ PM ", callback_data=f"send_fall#{pre}#{0}#{message.from_user.id}"),
+        InlineKeyboardButton("Sᴇɴᴅ Aʟʟ Tᴏ PM", callback_data=f"send_fall#{pre}#{0}#{message.from_user.id}"),
         InlineKeyboardButton("📟 Lᴀɴɢᴜᴀɢᴇs ", callback_data=f"select_lang#{message.from_user.id}")
     ])
 
