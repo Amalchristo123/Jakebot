@@ -10,4 +10,4 @@ git+https://github.com/Joelkb/cinemagoer
 datetime
 pytz
 aiohttp
-openai
+openai==0.28
