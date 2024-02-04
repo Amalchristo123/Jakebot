@@ -254,6 +254,174 @@ async def next_page(bot, query):
         pass
     await query.answer()
 
+@Client.on_callback_query(filters.regex(r"^sang"))
+async def season_check(bot, query):
+    _, userid, Season = query.data.split("#")
+    if int(userid) not in [query.from_user.id, 0]:
+        return await query.answer(script.ALRT_TXT.format(query.from_user.first_name), show_alert=True)
+    if Season == "unknown":
+        return await query.answer("Sᴇʟᴇᴄᴛ ᴀɴʏ ʟᴀɴɢᴜᴀɢᴇ ғʀᴏᴍ ᴛʜᴇ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴs !", show_alert=True)
+    movie = temp.KEYWORD.get(query.from_user.id)
+    if not movie:
+        return await query.answer(script.OLD_ALRT_TXT.format(query.from_user.first_name), show_alert=True)
+    if Season != "home":
+        movie = f"{movie} {Season}"
+    files, offset, total_results = await get_search_results(query.message.chat.id, movie, offset=0, filter=True)
+    if files:
+        settings = await get_settings(query.message.chat.id)
+        temp.SEND_ALL_TEMP[query.from_user.id] = files
+        if 'is_shortlink' in settings.keys():
+            ENABLE_SHORTLINK = settings['is_shortlink']
+        else:
+            await save_group_settings(query.message.chat.id, 'is_shortlink', False)
+            ENABLE_SHORTLINK = False
+        pre = 'filep' if settings['file_secure'] else 'file'
+        if ENABLE_SHORTLINK and settings['button']:
+            btn = [
+                [
+                    InlineKeyboardButton(
+                        text=f"🔹{get_size(file.file_size)}🔸{file.file_name}", url=await get_shortlink(query.message.chat.id, f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}")
+                    ),
+                ]
+                for file in files
+            ]
+        elif ENABLE_SHORTLINK and not settings['button']:
+            btn = [
+                [
+                    InlineKeyboardButton(
+                        text=f"{file.file_name}",
+                        url=await get_shortlink(query.message.chat.id, f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}")
+                    ),
+                    InlineKeyboardButton(
+                        text=f"{get_size(file.file_size)}",
+                        url=await get_shortlink(query.message.chat.id, f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}")
+                    ),
+                ]
+                for file in files
+            ]
+        elif settings['button'] and not ENABLE_SHORTLINK:
+            btn = [
+                [
+                    InlineKeyboardButton(
+                        text=f"🔹{get_size(file.file_size)}🔸{file.file_name}", callback_data=f'{pre}#{file.file_id}'
+                    ),
+                ]
+                for file in files
+            ]
+        else:
+            btn = [
+                [
+                    InlineKeyboardButton(
+                        text=f"{file.file_name}",
+                        callback_data=f'{pre}#{file.file_id}',
+                    ),
+                    InlineKeyboardButton(
+                        text=f"{get_size(file.file_size)}",
+                        callback_data=f'{pre}#{file.file_id}',
+                    ),
+                ]
+                for file in files
+            ]
+        try:
+            if settings['auto_delete']:
+                btn.insert(0, 
+                    [
+                        InlineKeyboardButton(f'🎁ɪɴꜰᴏ', 'reqinfo'),
+                        InlineKeyboardButton(f'🎥ᴍᴏᴠɪᴇ', 'minfo'),
+                        InlineKeyboardButton(f'📖ꜱᴇʀɪᴇꜱ', 'sinfo')
+                    ]
+                )
+
+            else:
+                btn.insert(0, 
+                    [
+                        InlineKeyboardButton(f'🎥ᴍᴏᴠɪᴇ', 'minfo'),
+                        InlineKeyboardButton(f'📖ꜱᴇʀɪᴇꜱ', 'sinfo')
+                    ]
+                )
+                    
+        except KeyError:
+            await save_group_settings(query.message.chat.id, 'auto_delete', True)
+            btn.insert(0, 
+                [
+                    InlineKeyboardButton(f'🎁ɪɴꜰᴏ', 'reqinfo'),
+                    InlineKeyboardButton(f'🎥ᴍᴏᴠɪᴇ', 'minfo'),
+                    InlineKeyboardButton(f'📖ꜱᴇʀɪᴇꜱ', 'sinfo')
+                ]
+            )
+        
+        btn.insert(0, [
+            InlineKeyboardButton("Sᴇɴᴅ Aʟʟ Tᴏ PM", callback_data=f"send_fall#{pre}#{0}#{userid}"),
+            InlineKeyboardButton("📟 Lᴀɴɢᴜᴀɢᴇs ", callback_data=f"select_lang#{userid}")
+        ])
+
+        btn.insert(0, [
+            InlineKeyboardButton("🍀 Cʜᴇᴄᴋ Bᴏᴛ PM 🍀", url=f"https://t.me/{temp.U_NAME}")
+        ])
+
+        if offset != "":
+            key = f"{query.message.chat.id}-{query.message.id}"
+            BUTTONS[key] = movie
+            req = userid
+            try:
+                if settings['max_btn']:
+                    btn.append(
+                        [InlineKeyboardButton("𝐏𝐀𝐆𝐄", callback_data="pages"), InlineKeyboardButton(text=f"1/{math.ceil(int(total_results)/10)}",callback_data="pages"), InlineKeyboardButton(text="𝐍𝐄𝐗𝐓 ➪",callback_data=f"next_{req}_{key}_{offset}")]
+                    )
+
+                else:
+                    btn.append(
+                        [InlineKeyboardButton("𝐏𝐀𝐆𝐄", callback_data="pages"), InlineKeyboardButton(text=f"1/{math.ceil(int(total_results)/int(MAX_B_TN))}",callback_data="pages"), InlineKeyboardButton(text="𝐍𝐄𝐗𝐓 ➪",callback_data=f"next_{req}_{key}_{offset}")]
+                    )
+            except KeyError:
+                await save_group_settings(query.message.chat.id, 'max_btn', True)
+                btn.append(
+                    [InlineKeyboardButton("𝐏𝐀𝐆𝐄", callback_data="pages"), InlineKeyboardButton(text=f"1/{math.ceil(int(total_results)/10)}",callback_data="pages"), InlineKeyboardButton(text="𝐍𝐄𝐗𝐓 ➪",callback_data=f"next_{req}_{key}_{offset}")]
+                )
+        else:
+            btn.append(
+                [InlineKeyboardButton(text="𝐍𝐎 𝐌𝐎𝐑𝐄 𝐏𝐀𝐆𝐄𝐒 𝐀𝐕𝐀𝐈𝐋𝐀𝐁𝐋𝐄",callback_data="pages")]
+            )
+        try:
+            await query.edit_message_reply_markup(
+                reply_markup=InlineKeyboardMarkup(btn)
+            )
+        except MessageNotModified:
+            pass
+        await query.answer()
+    else:
+        return await query.answer(f"Sᴏʀʀʏ, Nᴏ ғɪʟᴇs ғᴏᴜɴᴅ ғᴏʀ ʏᴏᴜʀ ᴏ̨ᴜᴇʀʏ {movie}.", show_alert=True)
+    
+@Client.on_callback_query(filters.regex(r"^select_sang"))
+async def select_season (bot, query):
+    _, userid = query.data.split("#")
+    if int(userid) not in [query.from_user.id, 0]:
+        return await query.answer(script.ALRT_TXT.format(query.from_user.first_name), show_alert=True)
+    btn = [[
+        InlineKeyboardButton("Sᴇʟᴇᴄᴛ Yᴏᴜʀ Dᴇꜱɪʀᴇᴅ sᴇᴀsᴏɴ", callback_data=f"sang#{userid}#unknown")
+    ],[
+        InlineKeyboardButton("Season 1", callback_data=f"sang#{userid}#s01"),       
+        InlineKeyboardButton("Season 2", callback_data=f"sang#{userid}#s02")
+    ],[
+        InlineKeyboardButton("Season 3", callback_data=f"sang#{userid}#s03"),
+        InlineKeyboardButton("Season 4", callback_data=f"sang#{userid}#s04")
+    ],[
+        InlineKeyboardButton("Season 5", callback_data=f"sang#{userid}#s05"),
+        InlineKeyboardButton("Season 6", callback_data=f"sang#{userid}#s06")
+    ],[
+        InlineKeyboardButton("Season 7", callback_data=f"sang#{userid}#s07"),
+        InlineKeyboardButton("Season 8", callback_data=f"sang#{userid}#s08")
+    ],[
+        InlineKeyboardButton("Gᴏ Bᴀᴄᴋ", callback_data=f"sang#{userid}#home")
+    ]]
+    try:
+        await query.edit_message_reply_markup(
+            reply_markup=InlineKeyboardMarkup(btn)
+        )
+    except MessageNotModified:
+        pass
+    await query.answer()
+
 @Client.on_callback_query(filters.regex(r"^lang"))
 async def language_check(bot, query):
     _, userid, language = query.data.split("#")
