@@ -363,14 +363,14 @@ async def season_check(bot, query):
                 InlineKeyboardButton("📟 Lᴀɴɢᴜᴀɢᴇs", callback_data=f"select_lang#{userid}"),    
                 InlineKeyboardButton(f'sᴇᴀsᴏɴ', callback_data=f"select_sang#{userid}")
            ])
-       else:
-           btn.insert(0, [
+        else:
+            btn.insert(0, [
                InlineKeyboardButton("📟 Lᴀɴɢᴜᴀɢᴇs", callback_data=f"select_lang#{userid}"),    
                InlineKeyboardButton(f'ʀᴜʟᴇs', 'rinfo')
-           ])
-       btn.insert(0, [
+            ])
+            btn.insert(0, [
            InlineKeyboardButton("Sᴇɴᴅ Aʟʟ Tᴏ PM", callback_data=f"send_fall#{pre}#{0}#{userid}")
-       ])
+            ])
 
        if offset != "":
            key = f"{query.message.chat.id}-{query.message.id}"
