@@ -371,8 +371,7 @@ async def season_check(bot, query):
             btn.insert(0, [
            InlineKeyboardButton("Sᴇɴᴅ Aʟʟ Tᴏ PM", callback_data=f"send_fall#{pre}#{0}#{userid}")
             ])
-
-       if offset != "":
+        if offset != "":
            key = f"{query.message.chat.id}-{query.message.id}"
            BUTTONS[key] = movie
            req = userid
@@ -404,6 +403,8 @@ async def season_check(bot, query):
        await query.answer()
    else:
        return await query.answer(f"Sᴏʀʀʏ, Nᴏ ғɪʟᴇs ғᴏᴜɴᴅ ғᴏʀ ʏᴏᴜʀ ᴏ̨ᴜᴇʀʏ {movie}.", show_alert=True)
+
+       
     
 @Client.on_callback_query(filters.regex(r"^select_sang"))
 async def select_season (bot, query):
