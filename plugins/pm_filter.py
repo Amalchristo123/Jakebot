@@ -1820,6 +1820,7 @@ async def auto_filter(client, msg, spoll=False):
         )
 
     season_files = [file for file in files if re.search(r's0[1-9]', file.file_name.lower())]
+    userid = message.from_user.id
     if len(season_files) > 0:
         btn.insert(0, [
             InlineKeyboardButton("📟 Lᴀɴɢᴜᴀɢᴇs", callback_data=f"select_lang#{message.from_user.id}"), 
