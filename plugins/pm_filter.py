@@ -239,7 +239,7 @@ async def next_page(bot, query):
                     InlineKeyboardButton("𝐍𝐄𝐗𝐓 ➪", callback_data=f"next_{req}_{key}_{n_offset}")
                 ],
             )
-    season_files = [file for file in files if re.search(r's0[1-9], s[10-30]', file.file_name.lower())]
+    season_files = [file for file in files if re.search(r's0[1-9]', file.file_name.lower())]
     if len(season_files) > 0:
         btn.insert(0, [
             InlineKeyboardButton("📟 Lᴀɴɢᴜᴀɢᴇs", callback_data=f"select_lang#{req}"),    
@@ -357,7 +357,7 @@ async def season_check(bot, query):
                 ]
             )
         
-        season_files = [file for file in files if re.search(r's0[1-9], s[10-30]', file.file_name.lower())]
+        season_files = [file for file in files if re.search(r's0[1-9]', file.file_name.lower())]
         if len(season_files) > 0:
             btn.insert(0, [
                 InlineKeyboardButton("📟 Lᴀɴɢᴜᴀɢᴇs", callback_data=f"select_lang#{userid}"),    
@@ -1825,7 +1825,11 @@ async def auto_filter(client, msg, spoll=False):
             InlineKeyboardButton("📟 Lᴀɴɢᴜᴀɢᴇs", callback_data=f"select_lang#{message.from_user.id}"), 
             InlineKeyboardButton(f'sᴇᴀsᴏɴ', callback_data=f"select_sang#{message.from_user.id}")
         ])
-    
+    else:
+         btn.insert(0, [
+             InlineKeyboardButton("📟 Lᴀɴɢᴜᴀɢᴇs", callback_data=f"select_lang#{userid}"),    
+             InlineKeyboardButton(f'ʀᴜʟᴇs', 'rinfo')
+         ])
     btn.insert(0, [
         InlineKeyboardButton("Sᴇɴᴅ Aʟʟ Tᴏ PM", callback_data=f"send_fall#{pre}#{0}#{message.from_user.id}")
     ])     
