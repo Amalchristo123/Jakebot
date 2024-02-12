@@ -196,7 +196,7 @@ Nᴀᴍᴇ - {}"""
 ========= • ✠ • =========
 ▫️ ᴄʜᴀɴɴᴇʟ : <a href='https://t.me/+m3MNLXzTNvU5NTNl'>ᴄʜᴀɴɴᴇʟ</a>
 ▫️ ɢʀᴏᴜᴘ : <a href='https://t.me/+PLxIb35WIswxNjRl'>ɢʀᴏᴜᴘ</a>
-========= • ✠ • ========</b>"""
+========= • ✠ • =========</b>"""
 
     IMDB_TEMPLATE_TXT = """
 <b>Query: {query}
