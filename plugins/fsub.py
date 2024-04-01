@@ -2,7 +2,8 @@
 
 import logging
 from database.fsub_db import Fsub_DB
-from info import FSUB_CHANNEL, ADMINS
+from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, get_bad_files
+from info import CHANNELS, ADMINS, AUTH_CHANNEL, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, PROTECT_CONTENT, CHNL_LNK, GRP_LNK, REQST_CHANNEL, SUPPORT_CHAT_ID, MAX_B_TN, IS_VERIFY, HOW_TO_VERIFY, FSUB_CHANNEL
 from utils import temp
 from pyrogram import Client, filters, enums
 from pyrogram.errors import UserNotParticipant
