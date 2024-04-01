@@ -11,6 +11,8 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ChatJoinR
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.ERROR)
 LINK = None
+FSUB_TEMP = {}
+
 
 @Client.on_chat_join_request(filters.chat(FSUB_CHANNEL))
 async def fetch_requests(bot, message: ChatJoinRequest):
@@ -19,7 +21,52 @@ async def fetch_requests(bot, message: ChatJoinRequest):
     username = message.from_user.username
     date = message.date
     await Fsub_DB().add_user(id=id, name=name, username=username, date=date)
-
+    files_ = FSUB_TEMP.get(message.from_user.id)           
+    if file_id:        
+        if IS_VERIFY and not await check_verification(client, message.from_user.id):
+            btn = [[
+                InlineKeyboardButton("Vᴇʀɪғʏ", url=await get_token(client, message.from_user.id, f"https://telegram.me/{temp.U_NAME}?start=", file_id)),
+                InlineKeyboardButton("Hᴏᴡ Tᴏ Vᴇʀɪғʏ", url=HOW_TO_VERIFY)
+            ]]
+            return await bot.send_message(
+            chat_id=message.from_user.id,
+            text="<b>Yᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴠᴇʀɪғɪᴇᴅ!\nKɪɴᴅʟʏ ᴠᴇʀɪғʏ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ Sᴏ ᴛʜᴀᴛ ʏᴏᴜ ᴄᴀɴ ɢᴇᴛ ᴀᴄᴄᴇss ᴛᴏ ᴜɴʟɪᴍɪᴛᴇᴅ ᴍᴏᴠɪᴇs ᴜɴᴛɪʟ 12 ʜᴏᴜʀs ғʀᴏᴍ ɴᴏᴡ !</b>",
+            protect_content=True if PROTECT_CONTENT else False,
+            reply_markup=InlineKeyboardMarkup(btn)
+            )
+        files_ = await get_file_details(file_id)
+        if not files_:
+            return await bot.send_message(message.from_user.id, 'No such file exist.')
+        files = files_[0]
+        title = files.file_name
+        size=get_size(files.file_size)
+        f_caption=files.caption
+        if CUSTOM_FILE_CAPTION:
+            try:
+                f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
+            except Exception as e:
+                logger.exception(e)
+            f_caption=f_caption
+        if f_caption is None:
+            f_caption = f"{files.file_name}" 
+        dm = await bot.send_cached_media(
+           chat_id=message.from_user.id,
+           file_id=file_id,
+           caption=f_caption,
+           protect_content=False
+        )
+        buttons = InlineKeyboardMarkup(
+           [
+               [
+                  InlineKeyboardButton('Sᴜᴘᴘᴏʀᴛ Gʀᴏᴜᴘ', url=GRP_LNK),
+                  InlineKeyboardButton('Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ', url=CHNL_LNK)
+               ],[
+                  InlineKeyboardButton("Bᴏᴛ Uᴩᴅᴀᴛᴇꜱ", url="https://t.me/+ixCkCbBsG6hkMzU1")
+               ]]
+        )
+        await dm.edit_reply_markup(buttons)
+        FSUB_TEMP[message.from_user.id] = None
+        
 @Client.on_message(filters.command("total_reqs") & filters.user(ADMINS))
 async def total_reqs_num(bot, message):
     num = await Fsub_DB().total_users()
