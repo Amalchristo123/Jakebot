@@ -22,7 +22,7 @@ async def fetch_requests(bot, message: ChatJoinRequest):
     username = message.from_user.username
     date = message.date
     await Fsub_DB().add_user(id=id, name=name, username=username, date=date)
-    files_ = FSUB_TEMP.get(message.from_user.id)           
+    file_id = FSUB_TEMP.get(message.from_user.id)           
     if file_id:        
         if IS_VERIFY and not await check_verification(client, message.from_user.id):
             btn = [[
