@@ -22,50 +22,51 @@ async def fetch_requests(bot, message: ChatJoinRequest):
     username = message.from_user.username
     date = message.date
     await Fsub_DB().add_user(id=id, name=name, username=username, date=date)
-    file_id = FSUB_TEMP.get(message.from_user.id)           
-    if file_id:        
-        if IS_VERIFY and not await check_verification(client, message.from_user.id):
+    file_id = FSUB_TEMP.get(message.from_user.id)
+    if file_id:
+        if IS_VERIFY and not await check_verification(bot, id):
             btn = [[
-                InlineKeyboardButton("Vᴇʀɪғʏ", url=await get_token(client, message.from_user.id, f"https://telegram.me/{temp.U_NAME}?start=", file_id)),
-                InlineKeyboardButton("Hᴏᴡ Tᴏ Vᴇʀɪғʏ", url=HOW_TO_VERIFY)
+                InlineKeyboardButton("♻️ Click to verify ♻️", url=await get_token(bot, message.from_user.id, f"https://telegram.me/{temp.U_NAME}?start=", file_id))
+            ],[
+                InlineKeyboardButton("❗️❓How to verify❗️❓", url="https://t.me/+SAO4zXgp9YdiZDg9")
             ]]
             return await bot.send_message(
-            chat_id=message.from_user.id,
-            text="<b>Yᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴠᴇʀɪғɪᴇᴅ!\nKɪɴᴅʟʏ ᴠᴇʀɪғʏ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ Sᴏ ᴛʜᴀᴛ ʏᴏᴜ ᴄᴀɴ ɢᴇᴛ ᴀᴄᴄᴇss ᴛᴏ ᴜɴʟɪᴍɪᴛᴇᴅ ᴍᴏᴠɪᴇs ᴜɴᴛɪʟ 12 ʜᴏᴜʀs ғʀᴏᴍ ɴᴏᴡ !</b>",
-            protect_content=True if PROTECT_CONTENT else False,
-            reply_markup=InlineKeyboardMarkup(btn)
+                chat_id=message.from_user.id,
+                text="<b>ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴠᴇʀɪғɪᴇᴅ ᴛᴏᴅᴀʏ, ᴘʟᴇᴀsᴇ ᴠᴇʀɪғʏ ɴᴏᴡ ᴀɴᴅ ɢᴇᴛ ᴜɴʟɪᴍɪᴛᴇᴅ ᴀᴄᴄᴇss ᴀɴᴅ ᴅɪʀᴇᴄᴛ ғɪʟᴇs ɴᴏ ʟɪɴᴋ 🔗 😊</b>\n\n<b>ᴇxᴘɪʀᴇ ᴏɴ 𝟷𝟸:𝟶𝟶 ᴀᴍ</b>\n\n<b>इस  बॉट को  इस्तेमाल  करने  के  लिए  आपको  ᴠᴇʀɪꜰʏ  करना  होगा  नहीं  तो  आप  इसका  इस्तेमाल  नहीं  कर  पाएंगे ।</b>",
+                reply_markup=InlineKeyboardMarkup(btn)
             )
         files_ = await get_file_details(file_id)
         if not files_:
             return await bot.send_message(message.from_user.id, 'No such file exist.')
         files = files_[0]
-        title = files.file_name
-        size=get_size(files.file_size)
-        f_caption=files.caption
+        title = replace_username(files.file_name)
+        size = get_size(files.file_size)
+        f_caption = files.caption
         if CUSTOM_FILE_CAPTION:
             try:
-                f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
+                f_caption = CUSTOM_FILE_CAPTION.format(file_name='' if title is None else title,
+                                                       file_size='' if size is None else size,
+                                                       file_caption='' if f_caption is None else f_caption)
             except Exception as e:
                 logger.exception(e)
-            f_caption=f_caption
+            f_caption = f_caption
         if f_caption is None:
-            f_caption = f"{files.file_name}" 
+            f_caption = f"{files.file_name}"
         dm = await bot.send_cached_media(
-           chat_id=message.from_user.id,
-           file_id=file_id,
-           caption=f_caption,
-           protect_content=False
+            chat_id=message.from_user.id,
+            file_id=file_id,
+            caption=f_caption,
+            protect_content=False 
         )
-        buttons = InlineKeyboardMarkup(
-           [
-               [
-                  InlineKeyboardButton('Sᴜᴘᴘᴏʀᴛ Gʀᴏᴜᴘ', url=GRP_LNK),
-                  InlineKeyboardButton('Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ', url=CHNL_LNK)
-               ],[
-                  InlineKeyboardButton("Bᴏᴛ Uᴩᴅᴀᴛᴇꜱ", url="https://t.me/+ixCkCbBsG6hkMzU1")
-               ]]
+        buttons =  InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "⚡️ 𝙁𝙖𝙨𝙩 𝘿𝙤𝙬𝙣𝙡𝙤𝙖𝙙 / 𝙒𝙖𝙩𝙘𝙝 𝙊𝙣𝙡𝙞𝙣𝙚 ⚡️", url="https://t.me/+SAO4zXgp9YdiZDg9")
+                ]] 
         )
-        await dm.edit_reply_markup(buttons)
+        await dm.edit_reply_markup(buttons)      
+        await bot.send_message(chat_id=message.from_user.id, text="<b>Movie Support Channel ✅</b>\n\n<b>💚 <b><a href=https://t.me/+a4Zmczqey1RkYmU1>@Rᴇǫᴜᴇsᴛ_Mᴏᴠɪᴇ_V𝟸</a></b>")
         FSUB_TEMP[message.from_user.id] = None
         
 @Client.on_message(filters.command("total_reqs") & filters.user(ADMINS))
