@@ -1348,7 +1348,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 ],[
                     InlineKeyboardButton('❤️OTT UPDATES❤️', url=CHNL_LNK)
                 ],[
-                    InlineKeyboardButton('🗣ASK ME MOVIES🫂', "")
+                    InlineKeyboardButton('🗣ASK ME MOVIES🫂',url='http://t.me/Moviesnow123bot')
                   ]]
         
         reply_markup = InlineKeyboardMarkup(buttons)
