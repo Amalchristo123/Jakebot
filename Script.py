@@ -194,8 +194,9 @@ Nᴀᴍᴇ - {}"""
 <b>📂 Fɪʟᴇ ɴᴀᴍᴇ : </b> <code>{file_name}</code>
 
 ========= • ✠ • =========
-▫️ ᴄʜᴀɴɴᴇʟ : <a href='https://t.me/+m3MNLXzTNvU5NTNl'>ᴄʜᴀɴɴᴇʟ</a>
-▫️ ɢʀᴏᴜᴘ : <a href='https://t.me/+PLxIb35WIswxNjRl'>ɢʀᴏᴜᴘ</a>
+•Jᴏɪɴ: <a href='https://t.me/+tDg3C_j8BM40YjA1'>🔵 Gʀᴏᴜᴩ 1</a>
+•Jᴏɪɴ: <a href='https://t.me/+Sd-FzFmdtEtmY2E9'>🟣 Gʀᴏᴜᴩ 2</a>
+•Jᴏɪɴ: <a href='https://t.me/+hZhFHaNV4EM4YzNl'>🟡 Gʀᴏᴜᴩ 3</a> 
 ========= • ✠ • =========</b>"""
 
     IMDB_TEMPLATE_TXT = """
