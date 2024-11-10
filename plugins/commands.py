@@ -363,6 +363,8 @@ async def start(client, message):
               InlineKeyboardButton('Oᴛᴛ Uᴘᴅᴀᴛᴇs', url="https://t.me/+p2eDKBfXPLk3ZGY1")
            ],[
               InlineKeyboardButton("Bᴏᴛ Uᴩᴅᴀᴛᴇꜱ", url="https://t.me/+ixCkCbBsG6hkMzU1")
+                 ],[
+              InlineKeyboardButton("Affiliatepro🇮🇳", url="https://t.me/affiliatepro369")]
              ]
             ]
         )
